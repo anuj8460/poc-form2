@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POC Evaluation Form - Transportation Management System (TMS) - Session 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Print Styles */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            #main-content { width: 100% !important; overflow: visible !important; height: auto !important; }
+            #sidebar { display: none !important; }
+            .page-break { page-break-inside: avoid; }
+        }
+        
+        #signature-pad {
+            border: 2px dashed #cbd5e1;
+            border-radius: 0.5rem;
+            cursor: crosshair;
+            background: #fff;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex overflow-hidden font-sans text-gray-800">
+
+    <aside id="sidebar" class="w-1/5 bg-slate-900 text-white p-6 flex flex-col no-print overflow-y-auto">
+        <h2 class="text-2xl font-bold mb-8 text-blue-400">Live Dashboard</h2>
+        
+        <div class="mb-6">
+            <p class="text-sm text-gray-400 uppercase tracking-wider mb-1">POC Status</p>
+            <div id="status-badge" class="px-3 py-1 rounded-full text-sm font-semibold inline-block bg-gray-500 text-white">
+                PENDING
+            </div>
+        </div>
+
+        <div class="mb-6 bg-slate-800 p-4 rounded-lg shadow-inner">
+            <p class="text-sm text-gray-400 uppercase tracking-wider mb-1">Pending Evaluation</p>
+            <p class="text-4xl font-bold text-yellow-400" id="pending-count">0</p>
+            <p class="text-xs text-gray-500 mt-1">Points remaining</p>
+        </div>
+
+        <div class="mb-6 bg-slate-800 p-4 rounded-lg shadow-inner">
+            <p class="text-sm text-gray-400 uppercase tracking-wider mb-1">Step Pass Rate</p>
+            <p class="text-4xl font-bold text-white" id="pass-rate">0%</p>
+        </div>
+
+        <div class="mb-6 bg-slate-800 p-4 rounded-lg shadow-inner">
+            <p class="text-sm text-gray-400 uppercase tracking-wider mb-1">Overall Score</p>
+            <p class="text-4xl font-bold text-white" id="overall-score">0</p>
+            <p class="text-xs text-gray-500 mt-1">Sum of Section Scores</p>
+        </div>
+    </aside>
+
+    <main id="main-content" class="w-4/5 flex flex-col relative h-full overflow-y-auto pb-24">
+        
+        <header class="bg-white shadow-sm px-8 py-6 flex justify-between items-center z-10 sticky top-0">
+            <img src="FarEye - Master Logo - Navy.png" alt="FarEye Logo" class="h-16 object-contain">
+
+            <div class="text-center">
+                <h1 class="text-xl font-bold text-slate-800">POC Evaluation Form</h1>
+                <p class="text-sm text-gray-500">Transportation Management System (TMS) - Session 1</p>
+            </div>
+
+            <img src="nykaa-seeklogo.png" alt="Nykaa Logo" class="h-16 object-contain">
+        </header>
+
+        <div id="form-container" class="p-8 max-w-6xl mx-auto w-full">
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded shadow-sm">
+                <h3 class="text-lg font-bold text-blue-800">Loading Form Data...</h3>
+                <p class="text-blue-700">If this message does not disappear, the file was not copied completely. Please re-copy the entire code block.</p>
+            </div>
+        </div>
+
+        <div class="p-8 max-w-6xl mx-auto w-full page-break">
+            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                <h3 class="text-lg font-bold text-slate-800 mb-4">Evaluator Sign-Off</h3>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Evaluator Name</label>
+                    <input type="text" id="evaluator-name" class="w-full border border-gray-300 rounded-md p-2 save-trigger" placeholder="Enter full name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Digital Signature</label>
+                    <div class="relative">
+                        <canvas id="signature-pad" width="600" height="200" class="w-full max-w-full bg-gray-50 border border-gray-300 rounded-lg"></canvas>
+                        <img id="signature-img" class="hidden w-full max-w-full border-2 border-transparent rounded-lg" />
+                    </div>
+                    <div class="mt-3 flex gap-2 no-print" id="signature-controls">
+                        <button type="button" onclick="clearSignature()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md text-sm font-medium transition">Clear</button>
+                        <button type="button" onclick="lockSignature()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition">Lock Signature</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="fixed bottom-0 right-0 w-4/5 bg-white border-t border-gray-200 px-8 py-4 flex justify-between items-center z-20 no-print shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <button onclick="resetForm()" class="px-6 py-2.5 bg-red-50 text-red-600 hover:bg-red-100 font-semibold rounded-md border border-red-200 transition">
+            Reset Form
+        </button>
+        <div class="flex gap-4">
+            <button onclick="window.print()" class="px-6 py-2.5 bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold rounded-md border border-gray-300 transition">
+                Print PDF
+            </button>
+            <button onclick="exportToWord()" class="px-6 py-2.5 bg-blue-600 text-white hover:bg-blue-700 font-semibold rounded-md shadow-sm transition">
+                Export to Word
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Data Structure
+        const pocData = [
+            {
+                id: "sec_order_orchestration",
+                title: "Order Orchestration & Allocation",
+                stories: [
+                    { id: "st_1_1", module: "Order intake and validation", desc: "Accept order creation from OMS/WMS/API with order ID, store ID, customer name, phone, address, lat-long, order value, invoice value, COD/prepaid flag, payment status, item count, promised SLA, and special instructions. Validate mandatory fields and reject bad orders with error reasons." },
+                    { id: "st_1_2", module: "Order Details Visibility", desc: "Dispatcher Portal and Rider App should show clear order details: order ID, customer address, navigation link, customer masked contact, payment mode, COD amount to collect, items/package count, promised delivery time, delivery notes, pickup dark store, pickup contact, and current order status." },
+                    { id: "st_1_3", module: "Order lifecycle management", desc: "Support order created, accepted, picking/packing ready, rider assigned, rider reached store, pickup done, out for delivery, reached customer location, delivered, failed, cancelled, returned to store, cash deposited, and closed statuses." },
+                    { id: "st_1_4", module: "Cancellation handling", desc: "Support cancellation of shipment before rider assignment until rider pickup is successful. Validate rider app notification and dispatcher portal cancellation reason codes." },
+                    { id: "st_1_5", module: "Auto-batching logic", desc: "Batch orders from the same dark store based on distance and promised SLA, rider capacity, order value and business priority." },
+                    { id: "st_1_6", module: "Intelligent rider assignment", desc: "Assignment should consider rider availability, attendance status, login time, proximity to store, current load, COD outstanding, shift ending time, and fairness/rotation rules." },
+                    { id: "st_1_7", module: "Carrier selection logic", desc: "Choose in-house fleet first or 3PL overflow based on Nykaa rule priorities, SLA risk, rider scarcity, carrier serviceability, carrier cost, carrier performance score, capacity cap, and fallback rules." },
+                    { id: "st_1_8", module: "SLA prioritization", desc: "Prioritize orders by promised SLA, ageing, premium order, reattempt, complaint/escalated order, high-value order, and breach risk." },
+                    { id: "st_1_9", module: "Business configuration", desc: "Admin UI should allow non-engineering users to configure Delivery Zones, batching threshold, rider capacity, carrier priority, reassignment rules, order priority, SLA thresholds." },
+                    { id: "st_1_10", module: "Duplicate and idempotency handling", desc: "APIs should prevent duplicate order creation, support idempotency keys, update existing order details safely, and provide retry-safe webhooks for OMS/WMS." },
+                    { id: "st_1_11", module: "Demo asks", desc: "Ask vendor to create five orders from one dark store, auto-batch two of them, assign to one rider, cancel one order before pickup, and show all downstream status/API/customer/rider effects live." }
+                ]
+            },
+            {
+                id: "sec_realtime_dispatch",
+                title: "Real-Time Dispatch Management",
+                stories: [
+                    { id: "st_2_1", module: "Dispatcher workbench", desc: "Screens for tracking live orders, riders, order batches, stores, SLA countdown, status filters, map view, exception queue, rider location, delayed orders, unassigned orders, and manual actions." },
+                    { id: "st_2_2", module: "Rider App execution", desc: "Rider App should show assigned trips, pickup store, order details, shipment count, customer address, navigation, COD amount, OTP/POD steps, customer masked calling, support contact, cancellation/failed delivery reasons, and next task queue." },
+                    { id: "st_2_3", module: "Live tracking and status refresh", desc: "Track order and rider status in real time or near real time. Confirm GPS polling frequency, rider battery optimization, background tracking behavior, location accuracy, offline sync, and update latency on control tower." },
+                    { id: "st_2_4", module: "Auto-dispatch flow", desc: "System should automatically dispatch ready orders based on configured rules without dispatcher intervention, with safe fallback if no rider is available." },
+                    { id: "st_2_5", module: "Auto reassignment", desc: "Automatically reassigns if rider rejects, does not move, is delayed, goes offline, exceeds pickup wait time, has app/GPS inactivity and vehicle breakdown." },
+                    { id: "st_2_6", module: "Rider acceptance/rejection", desc: "Confirm whether the rider accepts orders or orders are force-assigned. Capture rejection reasons, timeout rules, penalty/incentive impact, and dispatcher alerts." },
+                    { id: "st_2_7", module: "Role-based operations", desc: "Different views for central control tower, city manager, store manager, dispatcher, finance, and rider support. Confirm on audit logs." },
+                    { id: "st_2_8", module: "Operational audit trail", desc: "Every manual override, reassignment, status change, reason update, cash update, and proof update must capture user, timestamp, old value, new value, and reason." },
+                    { id: "st_2_9", module: "Demo asks", desc: "Ask vendor to show a live map with moving rider, create a delay scenario, trigger auto-reassignment, and manually override the delivery sequence and check its logs." }
+                ]
+            },
+            {
+                id: "sec_route_optimization",
+                title: "AI-Based Route Optimization",
+                stories: [
+                    { id: "st_3_1", module: "Optimization objective", desc: "Clarify whether the engine optimizes for SLA compliance, lowest distance, lowest cost, highest rider utilization, or blended weighted objectives." },
+                    { id: "st_3_2", module: "Traffic-aware ETA", desc: "Confirm if engine uses live traffic, historical traffic, time-of-day patterns, weather/festival impact where available, parking/building delay assumptions, and hyperlocal road constraints." },
+                    { id: "st_3_3", module: "Rider capacity constraints", desc: "Configure max orders, cash limit, high-value order limit, and maximum route duration." },
+                    { id: "st_3_4", module: "Cluster dispatch", desc: "Create clusters around apartments, societies, office parks, markets, metro stations, and high-density catchments." },
+                    { id: "st_3_5", module: "Dynamic re-optimization", desc: "Re-optimize route when a new priority order arrives, an order cancels, rider is delayed, road/traffic changes, or rider reaches a stop early/late." },
+                    { id: "st_3_6", module: "Geocoding quality", desc: "Validate address-to-lat-long capability and accuracy, lat long provider dependency, and fallback for bad addresses." },
+                    { id: "st_3_7", module: "Explainability", desc: "Dispatcher should see why a rider/order/batch was selected: nearest rider, SLA risk, capacity fit, cost, route impact, or carrier fallback." },
+                    { id: "st_3_8", module: "Demo asks", desc: "Ask vendor to optimize 20 mock orders with four riders, then add five urgent orders and show route changes, SLA impact, and breach prediction." }
+                ]
+            },
+            {
+                id: "sec_customer_experience",
+                title: "Customer Delivery Experience Layer",
+                stories: [
+                    { id: "st_4_1", module: "Rider Location Sharing", desc: "For Customer tracking page, Nykaa needs a continuous rider lat long to show live map view to customers." },
+                    { id: "st_4_2", module: "Dynamic ETA", desc: "ETA should update based on store readiness, rider assignment, pickup, traffic, route sequence. Share updated ETA with timestamp of latest update." },
+                    { id: "st_4_3", module: "Notification channels", desc: "Support WhatsApp, SMS, push, and IVR/call where needed. Configure channel fallback, retry, opt-in/consent, templates, language, and event triggers." },
+                    { id: "st_4_4", module: "Masked calling/chat", desc: "Support masked customer-rider calling, support bridge, call logs, call duration, missed call tracking, and escalation if customer is unreachable." },
+                    { id: "st_4_5", module: "Delivery instructions", desc: "Show delivery instructions such as gate code, leave at security, call before arrival, landmark, alternate phone, and apartment tower." },
+                    { id: "st_4_6", module: "OTP experience", desc: "Confirm whether delivery OTP would be configured by Vendor and is generated at what point; Needs to be sent to Nykaa via API." },
+                    { id: "st_4_7", module: "Language and accessibility", desc: "Templates should support English/Hindi and regional language needs, concise copy, mobile-first layout, and accessibility-friendly tracking page." },
+                    { id: "st_4_8", module: "Customer privacy", desc: "Mask customer phone/address where appropriate, restrict rider access after delivery, prevent screenshots if possible, and capture consent for WhatsApp." },
+                    { id: "st_4_9", module: "Demo asks", desc: "Ask vendor to show customer journey for normal delivery, delayed delivery, OTP delivery, and customer unreachable cases." }
+                ]
+            },
+            {
+                id: "sec_dark_store",
+                title: "Dark Store / Hub Operations",
+                stories: [
+                    { id: "st_5_1", module: "Store dashboard", desc: "Store team should see incoming orders, packing status, ready-to-dispatch queue, rider assigned, rider arriving, rider waiting, picked up, delayed, cancelled, and returned-to-store orders." },
+                    { id: "st_5_2", module: "Rider arrival management", desc: "Geofence or QR-based rider arrival, waiting timer, store handover window, and alerts for long rider wait or no-show." },
+                    { id: "st_5_3", module: "Batch readiness", desc: "Show whether all orders in a batch are ready or only partial. Support partial handover, batch split, hold until complete, and priority release for SLA-risk orders." },
+                    { id: "st_5_4", module: "Pickup verification", desc: "Scan package/OTP based varification, confirm package count, and handover timestamp." },
+                    { id: "st_5_5", module: "Heat maps", desc: "Live dispatch heat maps for order density, rider density, SLA risk, pickup waiting, store congestion." },
+                    { id: "st_5_6", module: "Inbound/outbound/sort support", desc: "For regular shipments, support inbound scan, outbound scan, sorting, bagging, manifesting, route bag creation, and store-to-hub/hub-to-store movements where relevant." },
+                    { id: "st_5_7", module: "Device support", desc: "Works on desktop/tablet/mobile; supports barcode scanner or phone camera scanning; fast enough for dark-store counters." },
+                    { id: "st_5_8", module: "Demo asks", desc: "Ask vendor to show a store operator flow from WMS ready event to rider arrival, package scan, handover, and dispatch departure." }
+                ]
+            },
+            {
+                id: "sec_exception_management",
+                title: "Exception Management & Control Tower",
+                stories: [
+                    { id: "st_6_1", module: "Central command center", desc: "Unified live view of all stores, cities, riders, orders, SLA risk, exceptions, carrier outages, pending COD, and operational health indicators." },
+                    { id: "st_6_2", module: "Failed delivery management", desc: "Capture attempt details, call proof, GPS proof, rider notes, photo if needed, customer communication, reattempt eligibility, cancellation, and return-to-store update." },
+                    { id: "st_6_3", module: "Auto-alerts", desc: "Configurable alerts via dashboard, email, WhatsApp, SMS, or webhook for SLA risk, unassigned ageing, rider idle, store congestion, carrier failure, COD outstanding, and tech outage." },
+                    { id: "st_6_4", module: "Manual override", desc: "Control tower can assign/reassign, move to 3PL, split batch, cancel, reattempt, update reason, contact rider/customer, change priority, or hold order, with audit trail." },
+                    { id: "st_6_5", module: "Root cause analytics", desc: "Post-facto view of breach reasons by store, rider, route, carrier, time of day, campaign, and customer cohort." },
+                    { id: "st_6_6", module: "Fraud and anomaly detection", desc: "Detect fake attempts, GPS spoofing, route deviation, repeated customer-unavailable patterns, abnormal COD mismatches, excessive cancellation, and suspicious POD photos." },
+                    { id: "st_6_7", module: "Carrier scorecards", desc: "Compare in-house, Shadowfax, Delhivery, Borzo, Rapido etc. on acceptance, pickup TAT, delivery SLA, NDR, cost, COD, coverage, outage, and customer complaints." },
+                    { id: "st_6_8", module: "City/store performance Reports", desc: "Store-level productivity, readiness time, dispatch delay, rider shortage, SLA breach, order density, and bottleneck trends." },
+                    { id: "st_6_9", module: "Peak-hour analytics", desc: "Hourly demand, rider requirement, capacity gap, queue ageing, batching ratio, SLA risk, and campaign impact for Pink Friday/festive/flash sales." },
+                    { id: "st_6_10", module: "Demo asks", desc: "Ask vendor to simulate customer unavailable, rider offline, store delay, and carrier outage, then show alert, Fake detection and audit trail." }
+                ]
+            },
+            {
+                id: "sec_pod",
+                title: "Proof of Delivery (POD)",
+                stories: [
+                    { id: "st_7_1", module: "OTP delivery", desc: "Support OTP generation, secure delivery to customer, rider entry, retry/resend limit, OTP expiry, supervisor override, and audit logs." },
+                    { id: "st_7_2", module: "Photo proof", desc: "Capture customer/package/location photo where required, compress/upload reliably, timestamp, geotag, prevent gallery upload, and retain per policy." },
+                    { id: "st_7_3", module: "Geo-tagged proof", desc: "Capture delivery lat-long, rider location and exception when outside geofence." },
+                    { id: "st_7_4", module: "Digital signature", desc: "Support customer signature capture if required for high-value, B2B, or regulated deliveries." },
+                    { id: "st_7_5", module: "Contactless delivery", desc: "Configurable contactless option with photo-at-door/security, and OTP bypass rules." },
+                    { id: "st_7_6", module: "COD proof", desc: "For COD, capture amount collected, payment mode, cash/UPI reference where applicable, customer confirmation, and rider wallet update." },
+                    { id: "st_7_7", module: "POD availability", desc: "POD should be visible in control tower, OMS via AP, and vendor reports. Support search/download/export." },
+                    { id: "st_7_8", module: "Demo asks", desc: "Ask vendor to complete prepaid OTP delivery, COD delivery, contactless delivery, failed delivery, and outside-geofence delivery attempt." }
+                ]
+            }
+        ];
+
+        let totalStories = 0;
+        const STORAGE_KEY = 'poc_session1_v3';
+
+        // 2. Render UI
+        function renderApp() {
+            const container = document.getElementById('form-container');
+            let html = '';
+
+            pocData.forEach(section => {
+                totalStories += section.stories.length;
+
+                html += `
+                <div class="mb-10 bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden page-break section-card" data-sec-id="${section.id}">
+                    
+                    <div class="bg-slate-50 border-b border-gray-200 p-5 flex justify-between items-center">
+                        <div>
+                            <div class="flex items-center gap-3 mb-1">
+                                <h2 class="text-xl font-bold text-slate-800">${section.title}</h2>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2 bg-white p-2 rounded-lg border border-gray-200 shadow-sm no-print">
+                            <label class="flex flex-col items-center cursor-pointer p-1 hover:bg-gray-50 rounded">
+                                <input type="radio" name="score_${section.id}" value="3" class="save-trigger sec-radio text-green-600 form-radio focus:ring-green-500">
+                                <span class="text-xs font-semibold mt-1 text-green-700">PASS (3)</span>
+                            </label>
+                            <label class="flex flex-col items-center cursor-pointer p-1 hover:bg-gray-50 rounded">
+                                <input type="radio" name="score_${section.id}" value="2" class="save-trigger sec-radio text-yellow-500 form-radio focus:ring-yellow-500">
+                                <span class="text-xs font-semibold mt-1 text-yellow-600">PARTIAL (2)</span>
+                            </label>
+                            <label class="flex flex-col items-center cursor-pointer p-1 hover:bg-gray-50 rounded">
+                                <input type="radio" name="score_${section.id}" value="1" class="save-trigger sec-radio text-red-600 form-radio focus:ring-red-500">
+                                <span class="text-xs font-semibold mt-1 text-red-600">FAIL (1)</span>
+                            </label>
+                            <label class="flex flex-col items-center cursor-pointer p-1 hover:bg-gray-50 rounded border-l border-gray-200 pl-2 ml-1">
+                                <input type="radio" name="score_${section.id}" value="0" class="save-trigger sec-radio text-gray-400 form-radio focus:ring-gray-400">
+                                <span class="text-xs font-semibold mt-1 text-gray-500">N/A (0)</span>
+                            </label>
+                        </div>
+                        <div class="hidden print-only-score text-sm font-bold text-blue-800">Score: <span id="print_score_${section.id}">Not Evaluated</span></div>
+                    </div>
+
+                    <div class="p-5 overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-500 uppercase bg-gray-50 rounded-md">
+                                <tr>
+                                    <th class="px-4 py-3 w-1/5 rounded-tl-md">Checkpoint</th>
+                                    <th class="px-4 py-3 w-[55%]">Evaluation Points</th>
+                                    <th class="px-4 py-3 w-1/4 rounded-tr-md min-w-[300px]">Result & Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                ${section.stories.map(story => `
+                                    <tr class="story-row hover:bg-gray-50">
+                                        <td class="px-4 py-4 font-semibold text-gray-700 align-top">${story.module}</td>
+                                        <td class="px-4 py-4 text-gray-600 align-top leading-relaxed">${story.desc}</td>
+                                        <td class="px-4 py-4 align-top">
+                                            <div class="flex gap-3 mb-3 no-print">
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input type="radio" name="res_${story.id}" value="Pass" class="save-trigger story-radio form-radio text-green-600">
+                                                    <span class="ml-1.5 text-gray-700 font-medium text-sm">Pass</span>
+                                                </label>
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input type="radio" name="res_${story.id}" value="Fail" class="save-trigger story-radio form-radio text-red-600">
+                                                    <span class="ml-1.5 text-gray-700 font-medium text-sm">Fail</span>
+                                                </label>
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input type="radio" name="res_${story.id}" value="Pending" class="save-trigger story-radio form-radio text-yellow-500" checked>
+                                                    <span class="ml-1.5 text-gray-700 font-medium text-sm">Pending</span>
+                                                </label>
+                                            </div>
+                                            <div class="hidden print-only-result text-sm font-bold mb-2">Result: <span id="print_res_${story.id}">Not Evaluated</span></div>
+                                            <textarea id="rem_${story.id}" class="save-trigger w-full border border-gray-300 rounded p-2 text-xs focus:ring-blue-500 focus:border-blue-500 resize-none" rows="2" placeholder="Remarks / Mitigation..."></textarea>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+            
+            document.querySelectorAll('.save-trigger').forEach(el => {
+                el.addEventListener('change', () => {
+                    saveState();
+                    updateKPIs();
+                });
+                if(el.tagName === 'TEXTAREA' || el.type === 'text') {
+                    el.addEventListener('input', () => {
+                        saveState();
+                    });
+                }
+            });
+        }
+
+        // 3. Live KPI Update
+        function updateKPIs() {
+            let overallScore = 0;
+            let passCount = 0;
+            let pendingCount = 0;
+
+            document.querySelectorAll('.section-card').forEach(card => {
+                const secId = card.getAttribute('data-sec-id');
+                const checkedSec = document.querySelector(`input[name="score_${secId}"]:checked`);
+                
+                if(checkedSec) {
+                    overallScore += parseInt(checkedSec.value);
+                    const printScoreEl = document.getElementById(`print_score_${secId}`);
+                    if(printScoreEl) printScoreEl.innerText = checkedSec.nextElementSibling.innerText;
+                }
+            });
+
+            document.querySelectorAll('.story-radio:checked').forEach(radio => {
+                if(radio.value === 'Pass') {
+                    passCount++;
+                } else if(radio.value === 'Pending') {
+                    pendingCount++;
+                }
+
+                const storyId = radio.name.replace('res_', '');
+                const printResEl = document.getElementById(`print_res_${storyId}`);
+                if(printResEl) {
+                    printResEl.innerText = radio.value;
+                    if(radio.value === 'Pass') printResEl.className = 'text-green-600';
+                    else if(radio.value === 'Fail') printResEl.className = 'text-red-600';
+                    else printResEl.className = 'text-gray-500';
+                }
+            });
+
+            const passRate = totalStories > 0 ? Math.round((passCount / totalStories) * 100) : 0;
+
+            document.getElementById('overall-score').innerText = overallScore;
+            document.getElementById('pass-rate').innerText = passRate + '%';
+            document.getElementById('pending-count').innerText = pendingCount;
+
+            const badge = document.getElementById('status-badge');
+            if(pendingCount === 0 && passRate >= 80) {
+                badge.innerText = 'QUALIFIED';
+                badge.className = 'px-3 py-1 rounded-full text-sm font-semibold inline-block bg-green-500 text-white';
+            } else if (pendingCount === 0 && passRate < 80) {
+                badge.innerText = 'AT RISK';
+                badge.className = 'px-3 py-1 rounded-full text-sm font-semibold inline-block bg-yellow-500 text-white';
+            } else {
+                badge.innerText = 'EVALUATING';
+                badge.className = 'px-3 py-1 rounded-full text-sm font-semibold inline-block bg-blue-500 text-white';
+            }
+        }
+
+        // 4. Persistence
+        function saveState() {
+            const state = { radios: {}, inputs: {}, signature: null, isLocked: false };
+            
+            document.querySelectorAll('input[type="radio"]:checked').forEach(r => {
+                state.radios[r.name] = r.value;
+            });
+            
+            document.querySelectorAll('textarea, input[type="text"]').forEach(input => {
+                state.inputs[input.id] = input.value;
+            });
+
+            const imgEl = document.getElementById('signature-img');
+            if(!imgEl.classList.contains('hidden')) {
+                state.signature = imgEl.src;
+                state.isLocked = true;
+            }
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            
+            if(!saved) {
+                updateKPIs(); 
+                return;
+            }
+            
+            const state = JSON.parse(saved);
+            
+            Object.keys(state.radios).forEach(name => {
+                const r = document.querySelector(`input[name="${name}"][value="${state.radios[name]}"]`);
+                if(r) r.checked = true;
+            });
+            
+            Object.keys(state.inputs).forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.value = state.inputs[id];
+            });
+
+            if(state.isLocked && state.signature) {
+                const canvas = document.getElementById('signature-pad');
+                const img = document.getElementById('signature-img');
+                const controls = document.getElementById('signature-controls');
+                
+                img.src = state.signature;
+                canvas.classList.add('hidden');
+                img.classList.remove('hidden');
+                controls.classList.add('hidden');
+            }
+
+            updateKPIs();
+        }
+
+        function resetForm() {
+            if(confirm("Are you sure you want to clear all data? This cannot be undone.")) {
+                localStorage.removeItem(STORAGE_KEY);
+                location.reload();
+            }
+        }
+
+        // 5. Canvas Logic
+        const canvas = document.getElementById('signature-pad');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+        function getCoordinates(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const { x, y } = getCoordinates(e);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            e.preventDefault(); 
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const { x, y } = getCoordinates(e);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = "#0f172a"; 
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            e.preventDefault();
+        }
+
+        function stopDrawing() {
+            if(isDrawing) {
+                isDrawing = false;
+                ctx.closePath();
+            }
+        }
+
+        if(canvas) {
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            canvas.addEventListener('touchstart', startDrawing, {passive: false});
+            canvas.addEventListener('touchmove', draw, {passive: false});
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function lockSignature() {
+            const blank = document.createElement('canvas');
+            blank.width = canvas.width;
+            blank.height = canvas.height;
+            if(canvas.toDataURL() === blank.toDataURL()) {
+                alert("Please provide a signature before locking.");
+                return;
+            }
+
+            const dataURL = canvas.toDataURL('image/png');
+            const img = document.getElementById('signature-img');
+            const controls = document.getElementById('signature-controls');
+            
+            img.src = dataURL;
+            canvas.classList.add('hidden');
+            img.classList.remove('hidden');
+            controls.classList.add('hidden');
+            
+            saveState();
+        }
+
+        // 6. Export to Word Logic
+        function exportToWord() {
+            const clone = document.getElementById('main-content').cloneNode(true);
+            
+            clone.querySelectorAll('textarea').forEach(ta => {
+                const p = document.createElement('p');
+                p.innerText = "Remarks: " + (ta.value || "None");
+                p.style.fontStyle = "italic";
+                p.style.color = "#555";
+                ta.parentNode.replaceChild(p, ta);
+            });
+
+            clone.querySelectorAll('input[type="text"]').forEach(input => {
+                const span = document.createElement('strong');
+                span.innerText = input.value || "[Not provided]";
+                input.parentNode.replaceChild(span, input);
+            });
+
+            clone.querySelectorAll('.print-only-score, .print-only-result').forEach(el => {
+                el.classList.remove('hidden');
+                el.style.display = "block"; 
+            });
+
+            clone.querySelectorAll('.no-print, canvas, .sec-radio, .story-radio').forEach(el => el.remove());
+
+            const htmlContent = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                <head>
+                    <meta charset='utf-8'>
+                    <title>POC Evaluation Form</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; color: #333; }
+                        h1, h2, h3 { color: #1e293b; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: top; }
+                        th { background-color: #f8fafc; }
+                        .section-card { margin-bottom: 30px; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; }
+                        .score { font-weight: bold; color: #1d4ed8; }
+                        img { max-width: 200px; height: auto; }
+                    </style>
+                </head>
+                <body>
+                    ${clone.innerHTML}
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'POC_Evaluation_Form_Session_1.doc';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // FORCE EXECUTE IMMEDIATELY
+        try {
+            renderApp();
+            loadState();
+        } catch (e) {
+            document.getElementById('form-container').innerHTML = `
+                <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                    <h3 class="text-lg font-bold text-red-800">Syntax Error Found</h3>
+                    <p class="text-red-700">${e.message}</p>
+                </div>
+            `;
+            console.error(e);
+        }
+    </script>
+</body>
+</html>
