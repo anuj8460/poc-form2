@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POC Evaluation Form - Transportation Management System (TMS) - Session 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Print Styles */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            #main-content { width: 100% !important; overflow: visible !important; height: auto !important; }
+            #sidebar { display: none !important; }
+            .page-break { page-break-inside: avoid; }
+        }
+        
+        #signature-pad {
+            border: 2px dashed #cbd5e1;
+            border-radius: 0.5rem;
+            cursor: crosshair;
+            background: #fff;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex overflow-hidden font-sans text-gray-800">
+
+    <aside id="sidebar" class="w-1/5 bg-slate-900 text-white p-6 flex flex-col no-print overflow-y-auto">
+        <h2 class="text-2xl font-bold mb-8 text-blue-400">Live Dashboard</h2>
+        
+        <div class="mb-6">
+            <p class="text-sm text-gray-400 uppercase tracking-wider mb-1">POC Status</p>
+            <div id="status-badge" class="px-3 py-1 rounded-full text-sm font-semibold inline-block bg-gray-500 text-white">
+                PENDING
+            </div>
+        </div>
+
+        <div class="mb-6 bg-slate-800 p-4 rounded-lg shadow-inner">
+            <p class="text-sm text-gray-400 uppercase tracking-wider mb-1">Pending Evaluation</p>
+            <p class="text-4xl font-bold text-yellow-400" id="pending-count">0</p>
+            <p class="text-xs text-gray-500 mt-1">Points remaining</p>
+        </div>
+
+        <div class="mb-6 bg-slate-800 p-4 rounded-lg shadow-inner">
+            <p class="text-sm text-gray-400 uppercase tracking-wider mb-1">Step Pass Rate</p>
+            <p class="text-4xl font-bold text-white" id="pass-rate">0%</p>
+        </div>
+
+        <div class="mb-6 bg-slate-800 p-4 rounded-lg shadow-inner">
+            <p class="text-sm text-gray-400 uppercase tracking-wider mb-1">Overall Score</p>
+            <p class="text-4xl font-bold text-white" id="overall-score">0</p>
+            <p class="text-xs text-gray-500 mt-1">Sum of Section Scores</p>
+        </div>
+    </aside>
+
+    <main id="main-content" class="w-4/5 flex flex-col relative h-full overflow-y-auto pb-24">
+        
+        <header class="bg-white shadow-sm px-8 py-6 flex justify-between items-center z-10 sticky top-0">
+            <img src="FarEye - Master Logo - Navy.png" alt="FarEye Logo" class="h-16 object-contain">
+
+            <div class="text-center">
+                <h1 class="text-xl font-bold text-slate-800">POC Evaluation Form</h1>
+                <p class="text-sm text-gray-500">Transportation Management System (TMS) - Session 2</p>
+            </div>
+
+            <img src="nykaa-seeklogo.png" alt="Nykaa Logo" class="h-16 object-contain">
+        </header>
+
+        <div id="form-container" class="p-8 max-w-6xl mx-auto w-full">
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded shadow-sm">
+                <h3 class="text-lg font-bold text-blue-800">Loading Form Data...</h3>
+                <p class="text-blue-700">If this message does not disappear, the file was not copied completely. Please re-copy the entire code block.</p>
+            </div>
+        </div>
+
+        <div class="p-8 max-w-6xl mx-auto w-full page-break">
+            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                <h3 class="text-lg font-bold text-slate-800 mb-4">Evaluator Sign-Off</h3>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Evaluator Name</label>
+                    <input type="text" id="evaluator-name" class="w-full border border-gray-300 rounded-md p-2 save-trigger" placeholder="Enter full name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Digital Signature</label>
+                    <div class="relative">
+                        <canvas id="signature-pad" width="600" height="200" class="w-full max-w-full bg-gray-50 border border-gray-300 rounded-lg"></canvas>
+                        <img id="signature-img" class="hidden w-full max-w-full border-2 border-transparent rounded-lg" />
+                    </div>
+                    <div class="mt-3 flex gap-2 no-print" id="signature-controls">
+                        <button type="button" onclick="clearSignature()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md text-sm font-medium transition">Clear</button>
+                        <button type="button" onclick="lockSignature()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition">Lock Signature</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="fixed bottom-0 right-0 w-4/5 bg-white border-t border-gray-200 px-8 py-4 flex justify-between items-center z-20 no-print shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <button onclick="resetForm()" class="px-6 py-2.5 bg-red-50 text-red-600 hover:bg-red-100 font-semibold rounded-md border border-red-200 transition">
+            Reset Form
+        </button>
+        <div class="flex gap-4">
+            <button onclick="window.print()" class="px-6 py-2.5 bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold rounded-md border border-gray-300 transition">
+                Print PDF
+            </button>
+            <button onclick="exportToWord()" class="px-6 py-2.5 bg-blue-600 text-white hover:bg-blue-700 font-semibold rounded-md shadow-sm transition">
+                Export to Word
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Data Structure
+        const pocData = [
+    {
+        "id": "sec_delivery_partner_management",
+        "title": "Delivery Partner Management",
+        "stories": [
+            {
+                "id": "st_1_1",
+                "module": "Rider wallet",
+                "desc": "Track earnings wallet, COD collected, deposit due, deductions, advances, loan/equipment deductions if any, and wallet freeze rules.
+
+Track earnings wallet, COD collected - only this for web"
+            },
+            {
+                "id": "st_1_2",
+                "module": "Rider onboarding",
+                "desc": "Capture rider profile, phone, address, emergency contact, vehicle details, DL/RC/PAN/Aadhaar where legally applicable, bank/UPI, police verification, training completion, contract type, and document expiry."
+            },
+            {
+                "id": "st_1_3",
+                "module": "KYC and compliance",
+                "desc": "Document upload, verification status, expiry alerts, blacklisting, deactivation reasons, safety/compliance acknowledgement, and DPDP-compliant consent capture."
+            },
+            {
+                "id": "st_1_4",
+                "module": "Attendance and shifts",
+                "desc": "Rider login/logout, shift roster creation and visibility, planned vs actual attendance, late login, early logout, break time, idle time, no-show, store tagging, zone tagging, and attendance approval."
+            },
+            {
+                "id": "st_1_5",
+                "module": "Availability management",
+                "desc": "Real-time online/offline status, battery/GPS status, location, current load, last activity, rejection rate, and auto-block if non-compliant."
+            },
+            {
+                "id": "st_1_6",
+                "module": "Productivity dashboards",
+                "desc": "Orders delivered, attempts, first-attempt success, SLA adherence, distance travelled, active hours, idle hours, pickup wait, utilization,and earnings per hour"
+            },
+            {
+                "id": "st_1_7",
+                "module": "Performance scorecards",
+                "desc": "Rider cancellations, delayed deliveries, route deviation, cash discrepancies, POD quality, and attendance"
+            },
+            {
+                "id": "st_1_8",
+                "module": "Incentive management",
+                "desc": "Configure base payout, per-order payout, distance payout, peak incentive, rain/festival incentive, attendance bonus, batch incentive, quality bonus, penalties, and city/store-level schemes with different time frequencies.
+
+Check With Pooja"
+            },
+            {
+                "id": "st_1_9",
+                "module": "Payout management",
+                "desc": "Calculate rider earnings, adjustments, deductions, penalties, COD recovery, settlement status, approval workflow, payout file, UTR tracking, and share
+ individual rider payout via API.
+
+Config and driver notification"
+            },
+            {
+                "id": "st_1_10",
+                "module": "Training and communication",
+                "desc": "Broadcast messages, policy updates, training modules, SOP acknowledgement, campaign briefing, service quality reminders, and in-app FAQs."
+            },
+            {
+                "id": "st_1_11",
+                "module": "Grievance and support",
+                "desc": "Rider can raise support tickets for payout issue, app issue, customer issue, store delay, accident, cash mismatch, or route issue. Track TAT and resolution.{Good to have }"
+            },
+            {
+                "id": "st_1_12",
+                "module": "Demo asks",
+                "desc": "Ask vendor to onboard a rider, mark attendance, assign orders, calculate incentive, show payout statement, and show a cash discrepancy impact."
+            }
+        ]
+    },
+    {
+        "id": "sec_reverse_logistics_returns",
+        "title": "Reverse Logistics / Returns",
+        "stories": [
+            {
+                "id": "st_2_1",
+                "module": "Return pickup creation",
+                "desc": "Create return pickup from OMS/WMS via API with return ID, order ID, SKU details, pickup address, customer contact, time window, reason, refund mode, QC requirement, and priority."
+            },
+            {
+                "id": "st_2_2",
+                "module": "Exchange workflows",
+                "desc": "Support exchange delivery and return pickup in the same trip, OTP/POD for both legs, and exception handling if one leg fails. {Good to have }"
+            },
+            {
+                "id": "st_2_3",
+                "module": "Reverse trip optimization",
+                "desc": "Optimize returns with forward deliveries where allowed, rider capacity, pickup window and priority flag."
+            },
+            {
+                "id": "st_2_4",
+                "module": "QC capture",
+                "desc": "Rider App should capture item condition, seal status, product image,
+ barcode/serial scan, quantity, reason, and pass/fail/partial QC outcome."
+            },
+            {
+                "id": "st_2_5",
+                "module": "Refund trigger integration",
+                "desc": "Confirm real-time API/webhook support to pass the statuses which can be used by OMS for triggering customer return"
+            },
+            {
+                "id": "st_2_6",
+                "module": "Customer experience",
+                "desc": "Customer notifications for pickup scheduled, rider assigned, arriving, picked up, failed pickup, rescheduled, received, QC completed."
+            },
+            {
+                "id": "st_2_7",
+                "module": "Failed pickup management",
+                "desc": "Handle customer unavailable, item not ready, wrong item, damaged item, customer cancelled return, address issue, and reattempt rules."
+            },
+            {
+                "id": "st_2_8",
+                "module": "Demo asks",
+                "desc": "Ask vendor to create a return, assign a rider, capture QC photos, trigger refund related status, and return package to store."
+            }
+        ]
+    },
+    {
+        "id": "sec_multi_carrier_orchestration",
+        "title": "Multi-Carrier Orchestration",
+        "stories": [
+            {
+                "id": "st_3_1",
+                "module": "Carrier integrations",
+                "desc": "Support in-house fleet plus Shadowfax, Delhivery, Blitz and other carriers through native connectors or APIs."
+            },
+            {
+                "id": "st_3_2",
+                "module": "Dynamic allocation",
+                "desc": "Allocate based on Carrier scorecard configured upon SLA, cost, carrier serviceability, live capacity, pickup ETA, customer promise, COD support, historical score, overflow rules, and store/city priority."
+            },
+            {
+                "id": "st_3_3",
+                "module": "Fallback logic",
+                "desc": "If first carrier rejects/times out/fails pickup, auto-fallback to another carrier or in-house rider without duplicate order creation. Capture reason and timeline."
+            },
+            {
+                "id": "st_3_4",
+                "module": "Capacity management",
+                "desc": "Configure carrier caps by city/store/hour/day, percentage split, overflow threshold, blackouts, and manual disable/enable."
+            },
+            {
+                "id": "st_3_5",
+                "module": "Unified tracking",
+                "desc": "Normalize all carrier statuses into Nykaa standard status taxonomy; support tracking URL, rider details, live location where carrier provides it, and
+ OTP/POD sync."
+            },
+            {
+                "id": "st_3_6",
+                "module": "Manual carrier override",
+                "desc": "Ops can force carrier, change carrier, block carrier for stor, and bulk move orders during outage."
+            },
+            {
+                "id": "st_3_7",
+                "module": "Demo asks",
+                "desc": "Ask vendor to route ten orders across in-house and two carriers, trigger one carrier rejection, and show fallback plus normalized tracking."
+            }
+        ]
+    },
+    {
+        "id": "sec_cash_management_module",
+        "title": "Cash Management Module",
+        "stories": [
+            {
+                "id": "st_4_1",
+                "module": "COD capture",
+                "desc": "Order-level COD amount should flow in Order Creation API. Rider App must clearly show COD amount to collect, prepaid/COD flag, and payment instructions."
+            },
+            {
+                "id": "st_4_2",
+                "module": "Rider cash wallet",
+                "desc": "Maintain rider-wise cash wallet with opening balance, COD collected, adjustments, deposit, short/excess, settlement, pending cash, and ageing."
+            },
+            {
+                "id": "st_4_3",
+                "module": "Cash collection recording",
+                "desc": "Rider records cash collected at delivery; system validates against order COD amount, and updates wallet instantly. Rider should be allowed to collect COD via Nykaa QR code or cash directly capturing the payment method.
+
+
+Show Start Trip Peity Cash"
+            },
+            {
+                "id": "st_4_4",
+                "module": "Daily reconciliation",
+                "desc": "Reconcile order COD expected vs rider collected vs deposited by rider/store/city/date/payment mode/order."
+            },
+            {
+                "id": "st_4_5",
+                "module": "Cash deposit tracking",
+                "desc": "Support deposit at store/hub/bank/UPI, deposit slip/photo, timestamp, and mismatch workflow."
+            }
+        ]
+    },
+    {
+        "id": "sec_cash_deposit_tracking",
+        "title": "Cash deposit tracking",
+        "stories": [
+            {
+                "id": "st_5_1",
+                "module": "Short/excess handling",
+                "desc": "Capture short cash, excess cash, damaged notes,customer paid online at doorstep if allowed, and approval/deduction workflow."
+            },
+            {
+                "id": "st_5_2",
+                "module": "Rider settlement",
+                "desc": "Freeze rider or allocations if outstanding COD exceeds threshold.
+
+Add in existing Dashboard , add filters as well"
+            },
+            {
+                "id": "st_5_3",
+                "module": "Auto reports",
+                "desc": "Daily COD report, rider-wise outstanding report, ageing report, deposit report, short/excess report, settlement file, and audit trail export through FTP/API/email."
+            },
+            {
+                "id": "st_5_4",
+                "module": "Audit and security",
+                "desc": "Every cash change should have user, timestamp, reason, attachment, old/new value, and approval history."
+            },
+            {
+                "id": "st_5_5",
+                "module": "Demo asks",
+                "desc": "Ask vendor to deliver two COD orders, record cash, deposit partial cash, show short cash, reconcile EOD, and show rider payout deduction."
+            }
+        ]
+    },
+    {
+        "id": "sec_whatsapp_native_delivery_communication_good_to_have",
+        "title": "WhatsApp Native Delivery Communication [ Good to have ]",
+        "stories": [
+            {
+                "id": "st_6_1",
+                "module": "Native WhatsApp capability",
+                "desc": "Confirm whether WhatsApp is built-in or needs BSP/provider integration. Validate template creation, approval process, consent management, fallback to SMS, and costs."
+            },
+            {
+                "id": "st_6_2",
+                "module": "Live tracking link",
+                "desc": "Send tracking link on WhatsApp with branded copy, dynamic ETA, rider masked contact, and order status."
+            },
+            {
+                "id": "st_6_3",
+                "module": "Delivery OTP",
+                "desc": "Send OTP through WhatsApp with expiry, resend rules, fallback channel, and audit log."
+            },
+            {
+                "id": "st_6_4",
+                "module": "Reschedule links",
+                "desc": "Customer can click WhatsApp link to reschedule, update instructions, confirm availability, or choose reattempt where allowed."
+            },
+            {
+                "id": "st_6_5",
+                "module": "NDR resolution",
+                "desc": "WhatsApp flow for customer unavailable, wrong address, payment issue, OTP issue, and delivery refusal. Capture response back into control tower automatically."
+            },
+            {
+                "id": "st_6_6",
+                "module": "Template localization",
+                "desc": "Support English/Hindi/regional language templates and event-specific templates for quick-commerce urgency."
+            },
+            {
+                "id": "st_6_7",
+                "module": "Compliance",
+                "desc": "Ensure opt-in, template category, PII masking, retention, DPDP alignment, and unsub/stop handling."
+            },
+            {
+                "id": "st_6_8",
+                "module": "Demo asks",
+                "desc": "Ask vendor to show WhatsApp tracking, OTP, delayed delivery alert, and NDR resolution link with the response reflected in the control tower."
+            }
+        ]
+    },
+    {
+        "id": "sec_peak_load_management",
+        "title": "Peak Load Management",
+        "stories": [
+            {
+                "id": "st_7_1",
+                "module": "Peak scaling",
+                "desc": "Handle 5X order peaks during Pink Friday, festive campaigns, and flash sales without dispatch lag, API backlog, or dashboard slowness."
+            },
+            {
+                "id": "st_7_2",
+                "module": "Capacity forecasting",
+                "desc": "Forecast rider requirement by store/hour using historical demand, weather, payday/festival, and current order inflow."
+            },
+            {
+                "id": "st_7_3",
+                "module": "Auto-scaling dispatch",
+                "desc": "Auto-adjust batching, carrier overflow, rider allocation radius, priority queues, and 3PL capacity when order load crosses thresholds."
+            },
+            {
+                "id": "st_7_4",
+                "module": "Queue management",
+                "desc": "Show unassigned order ageing, SLA risk, dispatch backlog, store congestion, and rider shortage by minute/hour."
+            },
+            {
+                "id": "st_7_5",
+                "module": "System performance",
+                "desc": "Confirm API throughput, webhook processing, dashboard concurrency, GPS event volume, notification volume, and maximum active orders/riders supported."
+            },
+            {
+                "id": "st_7_6",
+                "module": "Business continuity",
+                "desc": "Fallback mode if routing engine, WhatsApp, map provider, carrier API, or payment/COD service is degraded. Confirm manual dispatch continuity."
+            },
+            {
+                "id": "st_7_7",
+                "module": "Demo asks",
+                "desc": "Ask vendor to run or present a peak simulation with 5X order volume, rider shortage, and 3PL overflow while maintaining SLA dashboards."
+            }
+        ]
+    }
+];
+
+        let totalStories = 0;
+        const STORAGE_KEY = 'poc_session2_v1';
+
+        // 2. Render UI
+        function renderApp() {
+            const container = document.getElementById('form-container');
+            let html = '';
+
+            pocData.forEach(section => {
+                totalStories += section.stories.length;
+
+                html += `
+                <div class="mb-10 bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden page-break section-card" data-sec-id="${section.id}">
+                    
+                    <div class="bg-slate-50 border-b border-gray-200 p-5 flex justify-between items-center">
+                        <div>
+                            <div class="flex items-center gap-3 mb-1">
+                                <h2 class="text-xl font-bold text-slate-800">${section.title}</h2>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2 bg-white p-2 rounded-lg border border-gray-200 shadow-sm no-print">
+                            <label class="flex flex-col items-center cursor-pointer p-1 hover:bg-gray-50 rounded">
+                                <input type="radio" name="score_${section.id}" value="3" class="save-trigger sec-radio text-green-600 form-radio focus:ring-green-500">
+                                <span class="text-xs font-semibold mt-1 text-green-700">PASS (3)</span>
+                            </label>
+                            <label class="flex flex-col items-center cursor-pointer p-1 hover:bg-gray-50 rounded">
+                                <input type="radio" name="score_${section.id}" value="2" class="save-trigger sec-radio text-yellow-500 form-radio focus:ring-yellow-500">
+                                <span class="text-xs font-semibold mt-1 text-yellow-600">PARTIAL (2)</span>
+                            </label>
+                            <label class="flex flex-col items-center cursor-pointer p-1 hover:bg-gray-50 rounded">
+                                <input type="radio" name="score_${section.id}" value="1" class="save-trigger sec-radio text-red-600 form-radio focus:ring-red-500">
+                                <span class="text-xs font-semibold mt-1 text-red-600">FAIL (1)</span>
+                            </label>
+                            <label class="flex flex-col items-center cursor-pointer p-1 hover:bg-gray-50 rounded border-l border-gray-200 pl-2 ml-1">
+                                <input type="radio" name="score_${section.id}" value="0" class="save-trigger sec-radio text-gray-400 form-radio focus:ring-gray-400">
+                                <span class="text-xs font-semibold mt-1 text-gray-500">N/A (0)</span>
+                            </label>
+                        </div>
+                        <div class="hidden print-only-score text-sm font-bold text-blue-800">Score: <span id="print_score_${section.id}">Not Evaluated</span></div>
+                    </div>
+
+                    <div class="p-5 overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-500 uppercase bg-gray-50 rounded-md">
+                                <tr>
+                                    <th class="px-4 py-3 w-1/5 rounded-tl-md">Checkpoint</th>
+                                    <th class="px-4 py-3 w-[55%]">Evaluation Points</th>
+                                    <th class="px-4 py-3 w-1/4 rounded-tr-md min-w-[300px]">Result & Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                ${section.stories.map(story => `
+                                    <tr class="story-row hover:bg-gray-50">
+                                        <td class="px-4 py-4 font-semibold text-gray-700 align-top">${story.module}</td>
+                                        <td class="px-4 py-4 text-gray-600 align-top leading-relaxed">${story.desc}</td>
+                                        <td class="px-4 py-4 align-top">
+                                            <div class="flex gap-3 mb-3 no-print">
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input type="radio" name="res_${story.id}" value="Pass" class="save-trigger story-radio form-radio text-green-600">
+                                                    <span class="ml-1.5 text-gray-700 font-medium text-sm">Pass</span>
+                                                </label>
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input type="radio" name="res_${story.id}" value="Fail" class="save-trigger story-radio form-radio text-red-600">
+                                                    <span class="ml-1.5 text-gray-700 font-medium text-sm">Fail</span>
+                                                </label>
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input type="radio" name="res_${story.id}" value="Pending" class="save-trigger story-radio form-radio text-yellow-500" checked>
+                                                    <span class="ml-1.5 text-gray-700 font-medium text-sm">Pending</span>
+                                                </label>
+                                            </div>
+                                            <div class="hidden print-only-result text-sm font-bold mb-2">Result: <span id="print_res_${story.id}">Not Evaluated</span></div>
+                                            <textarea id="rem_${story.id}" class="save-trigger w-full border border-gray-300 rounded p-2 text-xs focus:ring-blue-500 focus:border-blue-500 resize-none" rows="2" placeholder="Remarks / Mitigation..."></textarea>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+            
+            document.querySelectorAll('.save-trigger').forEach(el => {
+                el.addEventListener('change', () => {
+                    saveState();
+                    updateKPIs();
+                });
+                if(el.tagName === 'TEXTAREA' || el.type === 'text') {
+                    el.addEventListener('input', () => {
+                        saveState();
+                    });
+                }
+            });
+        }
+
+        // 3. Live KPI Update
+        function updateKPIs() {
+            let overallScore = 0;
+            let passCount = 0;
+            let pendingCount = 0;
+
+            document.querySelectorAll('.section-card').forEach(card => {
+                const secId = card.getAttribute('data-sec-id');
+                const checkedSec = document.querySelector(`input[name="score_${secId}"]:checked`);
+                
+                if(checkedSec) {
+                    overallScore += parseInt(checkedSec.value);
+                    const printScoreEl = document.getElementById(`print_score_${secId}`);
+                    if(printScoreEl) printScoreEl.innerText = checkedSec.nextElementSibling.innerText;
+                }
+            });
+
+            document.querySelectorAll('.story-radio:checked').forEach(radio => {
+                if(radio.value === 'Pass') {
+                    passCount++;
+                } else if(radio.value === 'Pending') {
+                    pendingCount++;
+                }
+
+                const storyId = radio.name.replace('res_', '');
+                const printResEl = document.getElementById(`print_res_${storyId}`);
+                if(printResEl) {
+                    printResEl.innerText = radio.value;
+                    if(radio.value === 'Pass') printResEl.className = 'text-green-600';
+                    else if(radio.value === 'Fail') printResEl.className = 'text-red-600';
+                    else printResEl.className = 'text-gray-500';
+                }
+            });
+
+            const passRate = totalStories > 0 ? Math.round((passCount / totalStories) * 100) : 0;
+
+            document.getElementById('overall-score').innerText = overallScore;
+            document.getElementById('pass-rate').innerText = passRate + '%';
+            document.getElementById('pending-count').innerText = pendingCount;
+
+            const badge = document.getElementById('status-badge');
+            if(pendingCount === 0 && passRate >= 80) {
+                badge.innerText = 'QUALIFIED';
+                badge.className = 'px-3 py-1 rounded-full text-sm font-semibold inline-block bg-green-500 text-white';
+            } else if (pendingCount === 0 && passRate < 80) {
+                badge.innerText = 'AT RISK';
+                badge.className = 'px-3 py-1 rounded-full text-sm font-semibold inline-block bg-yellow-500 text-white';
+            } else {
+                badge.innerText = 'EVALUATING';
+                badge.className = 'px-3 py-1 rounded-full text-sm font-semibold inline-block bg-blue-500 text-white';
+            }
+        }
+
+        // 4. Persistence
+        function saveState() {
+            const state = { radios: {}, inputs: {}, signature: null, isLocked: false };
+            
+            document.querySelectorAll('input[type="radio"]:checked').forEach(r => {
+                state.radios[r.name] = r.value;
+            });
+            
+            document.querySelectorAll('textarea, input[type="text"]').forEach(input => {
+                state.inputs[input.id] = input.value;
+            });
+
+            const imgEl = document.getElementById('signature-img');
+            if(!imgEl.classList.contains('hidden')) {
+                state.signature = imgEl.src;
+                state.isLocked = true;
+            }
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            
+            if(!saved) {
+                updateKPIs(); 
+                return;
+            }
+            
+            const state = JSON.parse(saved);
+            
+            Object.keys(state.radios).forEach(name => {
+                const r = document.querySelector(`input[name="${name}"][value="${state.radios[name]}"]`);
+                if(r) r.checked = true;
+            });
+            
+            Object.keys(state.inputs).forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.value = state.inputs[id];
+            });
+
+            if(state.isLocked && state.signature) {
+                const canvas = document.getElementById('signature-pad');
+                const img = document.getElementById('signature-img');
+                const controls = document.getElementById('signature-controls');
+                
+                img.src = state.signature;
+                canvas.classList.add('hidden');
+                img.classList.remove('hidden');
+                controls.classList.add('hidden');
+            }
+
+            updateKPIs();
+        }
+
+        function resetForm() {
+            if(confirm("Are you sure you want to clear all data? This cannot be undone.")) {
+                localStorage.removeItem(STORAGE_KEY);
+                location.reload();
+            }
+        }
+
+        // 5. Canvas Logic
+        const canvas = document.getElementById('signature-pad');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+        function getCoordinates(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const { x, y } = getCoordinates(e);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            e.preventDefault(); 
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const { x, y } = getCoordinates(e);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = "#0f172a"; 
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            e.preventDefault();
+        }
+
+        function stopDrawing() {
+            if(isDrawing) {
+                isDrawing = false;
+                ctx.closePath();
+            }
+        }
+
+        if(canvas) {
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            canvas.addEventListener('touchstart', startDrawing, {passive: false});
+            canvas.addEventListener('touchmove', draw, {passive: false});
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function lockSignature() {
+            const blank = document.createElement('canvas');
+            blank.width = canvas.width;
+            blank.height = canvas.height;
+            if(canvas.toDataURL() === blank.toDataURL()) {
+                alert("Please provide a signature before locking.");
+                return;
+            }
+
+            const dataURL = canvas.toDataURL('image/png');
+            const img = document.getElementById('signature-img');
+            const controls = document.getElementById('signature-controls');
+            
+            img.src = dataURL;
+            canvas.classList.add('hidden');
+            img.classList.remove('hidden');
+            controls.classList.add('hidden');
+            
+            saveState();
+        }
+
+        // 6. Export to Word Logic
+        function exportToWord() {
+            const clone = document.getElementById('main-content').cloneNode(true);
+            
+            clone.querySelectorAll('textarea').forEach(ta => {
+                const p = document.createElement('p');
+                p.innerText = "Remarks: " + (ta.value || "None");
+                p.style.fontStyle = "italic";
+                p.style.color = "#555";
+                ta.parentNode.replaceChild(p, ta);
+            });
+
+            clone.querySelectorAll('input[type="text"]').forEach(input => {
+                const span = document.createElement('strong');
+                span.innerText = input.value || "[Not provided]";
+                input.parentNode.replaceChild(span, input);
+            });
+
+            clone.querySelectorAll('.print-only-score, .print-only-result').forEach(el => {
+                el.classList.remove('hidden');
+                el.style.display = "block"; 
+            });
+
+            clone.querySelectorAll('.no-print, canvas, .sec-radio, .story-radio').forEach(el => el.remove());
+
+            const htmlContent = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                <head>
+                    <meta charset='utf-8'>
+                    <title>POC Evaluation Form</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; color: #333; }
+                        h1, h2, h3 { color: #1e293b; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: top; }
+                        th { background-color: #f8fafc; }
+                        .section-card { margin-bottom: 30px; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; }
+                        .score { font-weight: bold; color: #1d4ed8; }
+                        img { max-width: 200px; height: auto; }
+                    </style>
+                </head>
+                <body>
+                    ${clone.innerHTML}
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'POC_Evaluation_Form_Session_2.doc';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // FORCE EXECUTE IMMEDIATELY
+        try {
+            renderApp();
+            loadState();
+        } catch (e) {
+            document.getElementById('form-container').innerHTML = `
+                <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                    <h3 class="text-lg font-bold text-red-800">Syntax Error Found</h3>
+                    <p class="text-red-700">${e.message}</p>
+                </div>
+            `;
+            console.error(e);
+        }
+    </script>
+</body>
+</html>
