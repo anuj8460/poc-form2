@@ -112,323 +112,309 @@
     <script>
         // 1. Data Structure
         const pocData = [
-    {
-        "id": "sec_delivery_partner_management",
-        "title": "Delivery Partner Management",
-        "stories": [
             {
-                "id": "st_1_1",
-                "module": "Rider wallet",
-                "desc": "Track earnings wallet, COD collected, deposit due, deductions, advances, loan/equipment deductions if any, and wallet freeze rules.
-
-Track earnings wallet, COD collected - only this for web"
+                id: 'sec_delivery_partner_management',
+                title: 'Delivery Partner Management',
+                stories: [
+                    {
+                        id: 'st_1_1',
+                        module: 'Rider wallet',
+                        desc: 'Track earnings wallet, COD collected, deposit due, deductions, advances, loan/equipment deductions if any, and wallet freeze rules. | Track earnings wallet, COD collected - only this for web'
+                    },
+                    {
+                        id: 'st_1_2',
+                        module: 'Rider onboarding',
+                        desc: 'Capture rider profile, phone, address, emergency contact, vehicle details, DL/RC/PAN/Aadhaar where legally applicable, bank/UPI, police verification, training completion, contract type, and document expiry.'
+                    },
+                    {
+                        id: 'st_1_3',
+                        module: 'KYC and compliance',
+                        desc: 'Document upload, verification status, expiry alerts, blacklisting, deactivation reasons, safety/compliance acknowledgement, and DPDP-compliant consent capture.'
+                    },
+                    {
+                        id: 'st_1_4',
+                        module: 'Attendance and shifts',
+                        desc: 'Rider login/logout, shift roster creation and visibility, planned vs actual attendance, late login, early logout, break time, idle time, no-show, store tagging, zone tagging, and attendance approval.'
+                    },
+                    {
+                        id: 'st_1_5',
+                        module: 'Availability management',
+                        desc: 'Real-time online/offline status, battery/GPS status, location, current load, last activity, rejection rate, and auto-block if non-compliant.'
+                    },
+                    {
+                        id: 'st_1_6',
+                        module: 'Productivity dashboards',
+                        desc: 'Orders delivered, attempts, first-attempt success, SLA adherence, distance travelled, active hours, idle hours, pickup wait, utilization,and earnings per hour'
+                    },
+                    {
+                        id: 'st_1_7',
+                        module: 'Performance scorecards',
+                        desc: 'Rider cancellations, delayed deliveries, route deviation, cash discrepancies, POD quality, and attendance'
+                    },
+                    {
+                        id: 'st_1_8',
+                        module: 'Incentive management',
+                        desc: 'Configure base payout, per-order payout, distance payout, peak incentive, rain/festival incentive, attendance bonus, batch incentive, quality bonus, penalties, and city/store-level schemes with different time frequencies. | Check With Pooja'
+                    },
+                    {
+                        id: 'st_1_9',
+                        module: 'Payout management',
+                        desc: 'Calculate rider earnings, adjustments, deductions, penalties, COD recovery, settlement status, approval workflow, payout file, UTR tracking, and share | individual rider payout via API. | Config and driver notification'
+                    },
+                    {
+                        id: 'st_1_10',
+                        module: 'Training and communication',
+                        desc: 'Broadcast messages, policy updates, training modules, SOP acknowledgement, campaign briefing, service quality reminders, and in-app FAQs.'
+                    },
+                    {
+                        id: 'st_1_11',
+                        module: 'Grievance and support',
+                        desc: 'Rider can raise support tickets for payout issue, app issue, customer issue, store delay, accident, cash mismatch, or route issue. Track TAT and resolution.{Good to have }'
+                    },
+                    {
+                        id: 'st_1_12',
+                        module: 'Demo asks',
+                        desc: 'Ask vendor to onboard a rider, mark attendance, assign orders, calculate incentive, show payout statement, and show a cash discrepancy impact.'
+                    }
+                ]
             },
             {
-                "id": "st_1_2",
-                "module": "Rider onboarding",
-                "desc": "Capture rider profile, phone, address, emergency contact, vehicle details, DL/RC/PAN/Aadhaar where legally applicable, bank/UPI, police verification, training completion, contract type, and document expiry."
+                id: 'sec_reverse_logistics_returns',
+                title: 'Reverse Logistics / Returns',
+                stories: [
+                    {
+                        id: 'st_2_1',
+                        module: 'Return pickup creation',
+                        desc: 'Create return pickup from OMS/WMS via API with return ID, order ID, SKU details, pickup address, customer contact, time window, reason, refund mode, QC requirement, and priority.'
+                    },
+                    {
+                        id: 'st_2_2',
+                        module: 'Exchange workflows',
+                        desc: 'Support exchange delivery and return pickup in the same trip, OTP/POD for both legs, and exception handling if one leg fails. {Good to have }'
+                    },
+                    {
+                        id: 'st_2_3',
+                        module: 'Reverse trip optimization',
+                        desc: 'Optimize returns with forward deliveries where allowed, rider capacity, pickup window and priority flag.'
+                    },
+                    {
+                        id: 'st_2_4',
+                        module: 'QC capture',
+                        desc: 'Rider App should capture item condition, seal status, product image, | barcode/serial scan, quantity, reason, and pass/fail/partial QC outcome.'
+                    },
+                    {
+                        id: 'st_2_5',
+                        module: 'Refund trigger integration',
+                        desc: 'Confirm real-time API/webhook support to pass the statuses which can be used by OMS for triggering customer return'
+                    },
+                    {
+                        id: 'st_2_6',
+                        module: 'Customer experience',
+                        desc: 'Customer notifications for pickup scheduled, rider assigned, arriving, picked up, failed pickup, rescheduled, received, QC completed.'
+                    },
+                    {
+                        id: 'st_2_7',
+                        module: 'Failed pickup management',
+                        desc: 'Handle customer unavailable, item not ready, wrong item, damaged item, customer cancelled return, address issue, and reattempt rules.'
+                    },
+                    {
+                        id: 'st_2_8',
+                        module: 'Demo asks',
+                        desc: 'Ask vendor to create a return, assign a rider, capture QC photos, trigger refund related status, and return package to store.'
+                    }
+                ]
             },
             {
-                "id": "st_1_3",
-                "module": "KYC and compliance",
-                "desc": "Document upload, verification status, expiry alerts, blacklisting, deactivation reasons, safety/compliance acknowledgement, and DPDP-compliant consent capture."
+                id: 'sec_multi_carrier_orchestration',
+                title: 'Multi-Carrier Orchestration',
+                stories: [
+                    {
+                        id: 'st_3_1',
+                        module: 'Carrier integrations',
+                        desc: 'Support in-house fleet plus Shadowfax, Delhivery, Blitz and other carriers through native connectors or APIs.'
+                    },
+                    {
+                        id: 'st_3_2',
+                        module: 'Dynamic allocation',
+                        desc: 'Allocate based on Carrier scorecard configured upon SLA, cost, carrier serviceability, live capacity, pickup ETA, customer promise, COD support, historical score, overflow rules, and store/city priority.'
+                    },
+                    {
+                        id: 'st_3_3',
+                        module: 'Fallback logic',
+                        desc: 'If first carrier rejects/times out/fails pickup, auto-fallback to another carrier or in-house rider without duplicate order creation. Capture reason and timeline.'
+                    },
+                    {
+                        id: 'st_3_4',
+                        module: 'Capacity management',
+                        desc: 'Configure carrier caps by city/store/hour/day, percentage split, overflow threshold, blackouts, and manual disable/enable.'
+                    },
+                    {
+                        id: 'st_3_5',
+                        module: 'Unified tracking',
+                        desc: 'Normalize all carrier statuses into Nykaa standard status taxonomy; support tracking URL, rider details, live location where carrier provides it, and | OTP/POD sync.'
+                    },
+                    {
+                        id: 'st_3_6',
+                        module: 'Manual carrier override',
+                        desc: 'Ops can force carrier, change carrier, block carrier for stor, and bulk move orders during outage.'
+                    },
+                    {
+                        id: 'st_3_7',
+                        module: 'Demo asks',
+                        desc: 'Ask vendor to route ten orders across in-house and two carriers, trigger one carrier rejection, and show fallback plus normalized tracking.'
+                    }
+                ]
             },
             {
-                "id": "st_1_4",
-                "module": "Attendance and shifts",
-                "desc": "Rider login/logout, shift roster creation and visibility, planned vs actual attendance, late login, early logout, break time, idle time, no-show, store tagging, zone tagging, and attendance approval."
+                id: 'sec_cash_management_module',
+                title: 'Cash Management Module',
+                stories: [
+                    {
+                        id: 'st_4_1',
+                        module: 'COD capture',
+                        desc: 'Order-level COD amount should flow in Order Creation API. Rider App must clearly show COD amount to collect, prepaid/COD flag, and payment instructions.'
+                    },
+                    {
+                        id: 'st_4_2',
+                        module: 'Rider cash wallet',
+                        desc: 'Maintain rider-wise cash wallet with opening balance, COD collected, adjustments, deposit, short/excess, settlement, pending cash, and ageing.'
+                    },
+                    {
+                        id: 'st_4_3',
+                        module: 'Cash collection recording',
+                        desc: 'Rider records cash collected at delivery; system validates against order COD amount, and updates wallet instantly. Rider should be allowed to collect COD via Nykaa QR code or cash directly capturing the payment method. | Show Start Trip Peity Cash'
+                    },
+                    {
+                        id: 'st_4_4',
+                        module: 'Daily reconciliation',
+                        desc: 'Reconcile order COD expected vs rider collected vs deposited by rider/store/city/date/payment mode/order.'
+                    },
+                    {
+                        id: 'st_4_5',
+                        module: 'Cash deposit tracking',
+                        desc: 'Support deposit at store/hub/bank/UPI, deposit slip/photo, timestamp, and mismatch workflow.'
+                    }
+                ]
             },
             {
-                "id": "st_1_5",
-                "module": "Availability management",
-                "desc": "Real-time online/offline status, battery/GPS status, location, current load, last activity, rejection rate, and auto-block if non-compliant."
+                id: 'sec_cash_deposit_tracking',
+                title: 'Cash deposit tracking',
+                stories: [
+                    {
+                        id: 'st_5_1',
+                        module: 'Short/excess handling',
+                        desc: 'Capture short cash, excess cash, damaged notes,customer paid online at doorstep if allowed, and approval/deduction workflow.'
+                    },
+                    {
+                        id: 'st_5_2',
+                        module: 'Rider settlement',
+                        desc: 'Freeze rider or allocations if outstanding COD exceeds threshold. | Add in existing Dashboard , add filters as well'
+                    },
+                    {
+                        id: 'st_5_3',
+                        module: 'Auto reports',
+                        desc: 'Daily COD report, rider-wise outstanding report, ageing report, deposit report, short/excess report, settlement file, and audit trail export through FTP/API/email.'
+                    },
+                    {
+                        id: 'st_5_4',
+                        module: 'Audit and security',
+                        desc: 'Every cash change should have user, timestamp, reason, attachment, old/new value, and approval history.'
+                    },
+                    {
+                        id: 'st_5_5',
+                        module: 'Demo asks',
+                        desc: 'Ask vendor to deliver two COD orders, record cash, deposit partial cash, show short cash, reconcile EOD, and show rider payout deduction.'
+                    }
+                ]
             },
             {
-                "id": "st_1_6",
-                "module": "Productivity dashboards",
-                "desc": "Orders delivered, attempts, first-attempt success, SLA adherence, distance travelled, active hours, idle hours, pickup wait, utilization,and earnings per hour"
+                id: 'sec_whatsapp_native_delivery_communication_good_to_have',
+                title: 'WhatsApp Native Delivery Communication [ Good to have ]',
+                stories: [
+                    {
+                        id: 'st_6_1',
+                        module: 'Native WhatsApp capability',
+                        desc: 'Confirm whether WhatsApp is built-in or needs BSP/provider integration. Validate template creation, approval process, consent management, fallback to SMS, and costs.'
+                    },
+                    {
+                        id: 'st_6_2',
+                        module: 'Live tracking link',
+                        desc: 'Send tracking link on WhatsApp with branded copy, dynamic ETA, rider masked contact, and order status.'
+                    },
+                    {
+                        id: 'st_6_3',
+                        module: 'Delivery OTP',
+                        desc: 'Send OTP through WhatsApp with expiry, resend rules, fallback channel, and audit log.'
+                    },
+                    {
+                        id: 'st_6_4',
+                        module: 'Reschedule links',
+                        desc: 'Customer can click WhatsApp link to reschedule, update instructions, confirm availability, or choose reattempt where allowed.'
+                    },
+                    {
+                        id: 'st_6_5',
+                        module: 'NDR resolution',
+                        desc: 'WhatsApp flow for customer unavailable, wrong address, payment issue, OTP issue, and delivery refusal. Capture response back into control tower automatically.'
+                    },
+                    {
+                        id: 'st_6_6',
+                        module: 'Template localization',
+                        desc: 'Support English/Hindi/regional language templates and event-specific templates for quick-commerce urgency.'
+                    },
+                    {
+                        id: 'st_6_7',
+                        module: 'Compliance',
+                        desc: 'Ensure opt-in, template category, PII masking, retention, DPDP alignment, and unsub/stop handling.'
+                    },
+                    {
+                        id: 'st_6_8',
+                        module: 'Demo asks',
+                        desc: 'Ask vendor to show WhatsApp tracking, OTP, delayed delivery alert, and NDR resolution link with the response reflected in the control tower.'
+                    }
+                ]
             },
             {
-                "id": "st_1_7",
-                "module": "Performance scorecards",
-                "desc": "Rider cancellations, delayed deliveries, route deviation, cash discrepancies, POD quality, and attendance"
-            },
-            {
-                "id": "st_1_8",
-                "module": "Incentive management",
-                "desc": "Configure base payout, per-order payout, distance payout, peak incentive, rain/festival incentive, attendance bonus, batch incentive, quality bonus, penalties, and city/store-level schemes with different time frequencies.
-
-Check With Pooja"
-            },
-            {
-                "id": "st_1_9",
-                "module": "Payout management",
-                "desc": "Calculate rider earnings, adjustments, deductions, penalties, COD recovery, settlement status, approval workflow, payout file, UTR tracking, and share
- individual rider payout via API.
-
-Config and driver notification"
-            },
-            {
-                "id": "st_1_10",
-                "module": "Training and communication",
-                "desc": "Broadcast messages, policy updates, training modules, SOP acknowledgement, campaign briefing, service quality reminders, and in-app FAQs."
-            },
-            {
-                "id": "st_1_11",
-                "module": "Grievance and support",
-                "desc": "Rider can raise support tickets for payout issue, app issue, customer issue, store delay, accident, cash mismatch, or route issue. Track TAT and resolution.{Good to have }"
-            },
-            {
-                "id": "st_1_12",
-                "module": "Demo asks",
-                "desc": "Ask vendor to onboard a rider, mark attendance, assign orders, calculate incentive, show payout statement, and show a cash discrepancy impact."
+                id: 'sec_peak_load_management',
+                title: 'Peak Load Management',
+                stories: [
+                    {
+                        id: 'st_7_1',
+                        module: 'Peak scaling',
+                        desc: 'Handle 5X order peaks during Pink Friday, festive campaigns, and flash sales without dispatch lag, API backlog, or dashboard slowness.'
+                    },
+                    {
+                        id: 'st_7_2',
+                        module: 'Capacity forecasting',
+                        desc: 'Forecast rider requirement by store/hour using historical demand, weather, payday/festival, and current order inflow.'
+                    },
+                    {
+                        id: 'st_7_3',
+                        module: 'Auto-scaling dispatch',
+                        desc: 'Auto-adjust batching, carrier overflow, rider allocation radius, priority queues, and 3PL capacity when order load crosses thresholds.'
+                    },
+                    {
+                        id: 'st_7_4',
+                        module: 'Queue management',
+                        desc: 'Show unassigned order ageing, SLA risk, dispatch backlog, store congestion, and rider shortage by minute/hour.'
+                    },
+                    {
+                        id: 'st_7_5',
+                        module: 'System performance',
+                        desc: 'Confirm API throughput, webhook processing, dashboard concurrency, GPS event volume, notification volume, and maximum active orders/riders supported.'
+                    },
+                    {
+                        id: 'st_7_6',
+                        module: 'Business continuity',
+                        desc: 'Fallback mode if routing engine, WhatsApp, map provider, carrier API, or payment/COD service is degraded. Confirm manual dispatch continuity.'
+                    },
+                    {
+                        id: 'st_7_7',
+                        module: 'Demo asks',
+                        desc: 'Ask vendor to run or present a peak simulation with 5X order volume, rider shortage, and 3PL overflow while maintaining SLA dashboards.'
+                    }
+                ]
             }
-        ]
-    },
-    {
-        "id": "sec_reverse_logistics_returns",
-        "title": "Reverse Logistics / Returns",
-        "stories": [
-            {
-                "id": "st_2_1",
-                "module": "Return pickup creation",
-                "desc": "Create return pickup from OMS/WMS via API with return ID, order ID, SKU details, pickup address, customer contact, time window, reason, refund mode, QC requirement, and priority."
-            },
-            {
-                "id": "st_2_2",
-                "module": "Exchange workflows",
-                "desc": "Support exchange delivery and return pickup in the same trip, OTP/POD for both legs, and exception handling if one leg fails. {Good to have }"
-            },
-            {
-                "id": "st_2_3",
-                "module": "Reverse trip optimization",
-                "desc": "Optimize returns with forward deliveries where allowed, rider capacity, pickup window and priority flag."
-            },
-            {
-                "id": "st_2_4",
-                "module": "QC capture",
-                "desc": "Rider App should capture item condition, seal status, product image,
- barcode/serial scan, quantity, reason, and pass/fail/partial QC outcome."
-            },
-            {
-                "id": "st_2_5",
-                "module": "Refund trigger integration",
-                "desc": "Confirm real-time API/webhook support to pass the statuses which can be used by OMS for triggering customer return"
-            },
-            {
-                "id": "st_2_6",
-                "module": "Customer experience",
-                "desc": "Customer notifications for pickup scheduled, rider assigned, arriving, picked up, failed pickup, rescheduled, received, QC completed."
-            },
-            {
-                "id": "st_2_7",
-                "module": "Failed pickup management",
-                "desc": "Handle customer unavailable, item not ready, wrong item, damaged item, customer cancelled return, address issue, and reattempt rules."
-            },
-            {
-                "id": "st_2_8",
-                "module": "Demo asks",
-                "desc": "Ask vendor to create a return, assign a rider, capture QC photos, trigger refund related status, and return package to store."
-            }
-        ]
-    },
-    {
-        "id": "sec_multi_carrier_orchestration",
-        "title": "Multi-Carrier Orchestration",
-        "stories": [
-            {
-                "id": "st_3_1",
-                "module": "Carrier integrations",
-                "desc": "Support in-house fleet plus Shadowfax, Delhivery, Blitz and other carriers through native connectors or APIs."
-            },
-            {
-                "id": "st_3_2",
-                "module": "Dynamic allocation",
-                "desc": "Allocate based on Carrier scorecard configured upon SLA, cost, carrier serviceability, live capacity, pickup ETA, customer promise, COD support, historical score, overflow rules, and store/city priority."
-            },
-            {
-                "id": "st_3_3",
-                "module": "Fallback logic",
-                "desc": "If first carrier rejects/times out/fails pickup, auto-fallback to another carrier or in-house rider without duplicate order creation. Capture reason and timeline."
-            },
-            {
-                "id": "st_3_4",
-                "module": "Capacity management",
-                "desc": "Configure carrier caps by city/store/hour/day, percentage split, overflow threshold, blackouts, and manual disable/enable."
-            },
-            {
-                "id": "st_3_5",
-                "module": "Unified tracking",
-                "desc": "Normalize all carrier statuses into Nykaa standard status taxonomy; support tracking URL, rider details, live location where carrier provides it, and
- OTP/POD sync."
-            },
-            {
-                "id": "st_3_6",
-                "module": "Manual carrier override",
-                "desc": "Ops can force carrier, change carrier, block carrier for stor, and bulk move orders during outage."
-            },
-            {
-                "id": "st_3_7",
-                "module": "Demo asks",
-                "desc": "Ask vendor to route ten orders across in-house and two carriers, trigger one carrier rejection, and show fallback plus normalized tracking."
-            }
-        ]
-    },
-    {
-        "id": "sec_cash_management_module",
-        "title": "Cash Management Module",
-        "stories": [
-            {
-                "id": "st_4_1",
-                "module": "COD capture",
-                "desc": "Order-level COD amount should flow in Order Creation API. Rider App must clearly show COD amount to collect, prepaid/COD flag, and payment instructions."
-            },
-            {
-                "id": "st_4_2",
-                "module": "Rider cash wallet",
-                "desc": "Maintain rider-wise cash wallet with opening balance, COD collected, adjustments, deposit, short/excess, settlement, pending cash, and ageing."
-            },
-            {
-                "id": "st_4_3",
-                "module": "Cash collection recording",
-                "desc": "Rider records cash collected at delivery; system validates against order COD amount, and updates wallet instantly. Rider should be allowed to collect COD via Nykaa QR code or cash directly capturing the payment method.
-
-
-Show Start Trip Peity Cash"
-            },
-            {
-                "id": "st_4_4",
-                "module": "Daily reconciliation",
-                "desc": "Reconcile order COD expected vs rider collected vs deposited by rider/store/city/date/payment mode/order."
-            },
-            {
-                "id": "st_4_5",
-                "module": "Cash deposit tracking",
-                "desc": "Support deposit at store/hub/bank/UPI, deposit slip/photo, timestamp, and mismatch workflow."
-            }
-        ]
-    },
-    {
-        "id": "sec_cash_deposit_tracking",
-        "title": "Cash deposit tracking",
-        "stories": [
-            {
-                "id": "st_5_1",
-                "module": "Short/excess handling",
-                "desc": "Capture short cash, excess cash, damaged notes,customer paid online at doorstep if allowed, and approval/deduction workflow."
-            },
-            {
-                "id": "st_5_2",
-                "module": "Rider settlement",
-                "desc": "Freeze rider or allocations if outstanding COD exceeds threshold.
-
-Add in existing Dashboard , add filters as well"
-            },
-            {
-                "id": "st_5_3",
-                "module": "Auto reports",
-                "desc": "Daily COD report, rider-wise outstanding report, ageing report, deposit report, short/excess report, settlement file, and audit trail export through FTP/API/email."
-            },
-            {
-                "id": "st_5_4",
-                "module": "Audit and security",
-                "desc": "Every cash change should have user, timestamp, reason, attachment, old/new value, and approval history."
-            },
-            {
-                "id": "st_5_5",
-                "module": "Demo asks",
-                "desc": "Ask vendor to deliver two COD orders, record cash, deposit partial cash, show short cash, reconcile EOD, and show rider payout deduction."
-            }
-        ]
-    },
-    {
-        "id": "sec_whatsapp_native_delivery_communication_good_to_have",
-        "title": "WhatsApp Native Delivery Communication [ Good to have ]",
-        "stories": [
-            {
-                "id": "st_6_1",
-                "module": "Native WhatsApp capability",
-                "desc": "Confirm whether WhatsApp is built-in or needs BSP/provider integration. Validate template creation, approval process, consent management, fallback to SMS, and costs."
-            },
-            {
-                "id": "st_6_2",
-                "module": "Live tracking link",
-                "desc": "Send tracking link on WhatsApp with branded copy, dynamic ETA, rider masked contact, and order status."
-            },
-            {
-                "id": "st_6_3",
-                "module": "Delivery OTP",
-                "desc": "Send OTP through WhatsApp with expiry, resend rules, fallback channel, and audit log."
-            },
-            {
-                "id": "st_6_4",
-                "module": "Reschedule links",
-                "desc": "Customer can click WhatsApp link to reschedule, update instructions, confirm availability, or choose reattempt where allowed."
-            },
-            {
-                "id": "st_6_5",
-                "module": "NDR resolution",
-                "desc": "WhatsApp flow for customer unavailable, wrong address, payment issue, OTP issue, and delivery refusal. Capture response back into control tower automatically."
-            },
-            {
-                "id": "st_6_6",
-                "module": "Template localization",
-                "desc": "Support English/Hindi/regional language templates and event-specific templates for quick-commerce urgency."
-            },
-            {
-                "id": "st_6_7",
-                "module": "Compliance",
-                "desc": "Ensure opt-in, template category, PII masking, retention, DPDP alignment, and unsub/stop handling."
-            },
-            {
-                "id": "st_6_8",
-                "module": "Demo asks",
-                "desc": "Ask vendor to show WhatsApp tracking, OTP, delayed delivery alert, and NDR resolution link with the response reflected in the control tower."
-            }
-        ]
-    },
-    {
-        "id": "sec_peak_load_management",
-        "title": "Peak Load Management",
-        "stories": [
-            {
-                "id": "st_7_1",
-                "module": "Peak scaling",
-                "desc": "Handle 5X order peaks during Pink Friday, festive campaigns, and flash sales without dispatch lag, API backlog, or dashboard slowness."
-            },
-            {
-                "id": "st_7_2",
-                "module": "Capacity forecasting",
-                "desc": "Forecast rider requirement by store/hour using historical demand, weather, payday/festival, and current order inflow."
-            },
-            {
-                "id": "st_7_3",
-                "module": "Auto-scaling dispatch",
-                "desc": "Auto-adjust batching, carrier overflow, rider allocation radius, priority queues, and 3PL capacity when order load crosses thresholds."
-            },
-            {
-                "id": "st_7_4",
-                "module": "Queue management",
-                "desc": "Show unassigned order ageing, SLA risk, dispatch backlog, store congestion, and rider shortage by minute/hour."
-            },
-            {
-                "id": "st_7_5",
-                "module": "System performance",
-                "desc": "Confirm API throughput, webhook processing, dashboard concurrency, GPS event volume, notification volume, and maximum active orders/riders supported."
-            },
-            {
-                "id": "st_7_6",
-                "module": "Business continuity",
-                "desc": "Fallback mode if routing engine, WhatsApp, map provider, carrier API, or payment/COD service is degraded. Confirm manual dispatch continuity."
-            },
-            {
-                "id": "st_7_7",
-                "module": "Demo asks",
-                "desc": "Ask vendor to run or present a peak simulation with 5X order volume, rider shortage, and 3PL overflow while maintaining SLA dashboards."
-            }
-        ]
-    }
-];
+        ];
 
         let totalStories = 0;
         const STORAGE_KEY = 'poc_session2_v1';
